@@ -287,6 +287,44 @@
           "unit": "ops"
         }
       }
+    },
+    {
+      "id": 40,
+      "title": "Config Reloads",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum by (status) (rate(gc_config_reloads_total[5m]))",
+          "legendFormat": "{{status}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "ops"
+        }
+      }
+    },
+    {
+      "id": 41,
+      "title": "Controller Lifecycle Events",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum by (event) (rate(gc_controller_lifecycle_total[5m]))",
+          "legendFormat": "{{event}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "ops"
+        }
+      }
     }
   ],
   "schemaVersion": 39,

@@ -208,6 +208,46 @@
           "custom": { "fillOpacity": 10 }
         }
       }
+    },
+    {
+      "id": 30,
+      "title": "Circuit Breaker Trips",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 20 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum(rate(bd_db_circuit_trips_total[5m]))",
+          "legendFormat": "trips/s"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "ops",
+          "color": { "fixedColor": "red", "mode": "fixed" }
+        }
+      }
+    },
+    {
+      "id": 31,
+      "title": "Circuit Breaker Rejections",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 20 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum(rate(bd_db_circuit_rejected_total[5m]))",
+          "legendFormat": "rejected/s"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "ops",
+          "color": { "fixedColor": "orange", "mode": "fixed" }
+        }
+      }
     }
   ],
   "schemaVersion": 39,

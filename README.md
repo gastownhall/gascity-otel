@@ -68,6 +68,7 @@ Agent lifecycle, bd call performance, and session activity.
 - **Agent lifecycle**: starts by agent, stops by reason, idle kills
 - **bd calls**: call rate and error rate by subcommand, latency p50/p95/p99
 - **Sessions**: nudge rate, sling dispatches, reconcile cycles
+- **Controller**: config reloads by status, controller lifecycle events
 
 ### AI & Token Usage
 
@@ -85,6 +86,7 @@ bd storage operations, errors, and lock contention.
 - **Stats**: storage ops/errors (1h), DB retries, open issues
 - **Operations**: op rate and error rate by type
 - **Latency**: storage op p50/p95, lock wait p50/p95
+- **Circuit breaker**: trip rate, rejection rate
 - **Issues**: count by status
 
 ## Metric Reference
@@ -116,6 +118,8 @@ bd storage operations, errors, and lock contention.
 | `bd_storage_errors_total` | counter | type |
 | `bd_db_retry_count_total` | counter | — |
 | `bd_db_lock_wait_ms` | histogram | — |
+| `bd_db_circuit_trips_total` | counter | — |
+| `bd_db_circuit_rejected_total` | counter | — |
 | `bd_issue_count` | gauge | status |
 | `bd_ai_input_tokens_total` | counter | model |
 | `bd_ai_output_tokens_total` | counter | model |
