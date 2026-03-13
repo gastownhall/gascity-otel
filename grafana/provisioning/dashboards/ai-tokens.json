@@ -1,0 +1,173 @@
+{
+  "uid": "gc-ai-tokens",
+  "title": "AI & Token Usage",
+  "description": "Claude API usage via bd metrics — token rates, latency, and cost signals",
+  "tags": ["gascity"],
+  "timezone": "browser",
+  "editable": true,
+  "refresh": "30s",
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Input Tokens (1h)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 0, "y": 0 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum(increase(bd_ai_input_tokens_total[1h]))",
+          "legendFormat": "input"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "title": "Output Tokens (1h)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 8, "y": 0 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum(increase(bd_ai_output_tokens_total[1h]))",
+          "legendFormat": "output"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "purple", "value": null }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "title": "Median API Latency",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 8, "x": 16, "y": 0 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(bd_ai_request_duration_ms_bucket[5m])))",
+          "legendFormat": "p50"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 5000 },
+              { "color": "red", "value": 30000 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "Input Token Rate by Model",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum by (model) (rate(bd_ai_input_tokens_total[5m]))",
+          "legendFormat": "{{model}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "tokens/s"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "Output Token Rate by Model",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum by (model) (rate(bd_ai_output_tokens_total[5m]))",
+          "legendFormat": "{{model}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "tokens/s"
+        }
+      }
+    },
+    {
+      "id": 20,
+      "title": "API Latency (p50 / p95 / p99)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum by (le) (rate(bd_ai_request_duration_ms_bucket[5m])))",
+          "legendFormat": "p50"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(bd_ai_request_duration_ms_bucket[5m])))",
+          "legendFormat": "p95"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum by (le) (rate(bd_ai_request_duration_ms_bucket[5m])))",
+          "legendFormat": "p99"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms"
+        }
+      }
+    },
+    {
+      "id": 21,
+      "title": "Output / Input Token Ratio",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "datasource": { "uid": "victoriametrics" },
+      "targets": [
+        {
+          "expr": "sum(rate(bd_ai_output_tokens_total[5m])) / sum(rate(bd_ai_input_tokens_total[5m]))",
+          "legendFormat": "output/input"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": { "fillOpacity": 10 },
+          "unit": "none",
+          "decimals": 2
+        }
+      }
+    }
+  ],
+  "schemaVersion": 39,
+  "version": 1
+}
