@@ -79,6 +79,16 @@ Claude API usage via bd metrics.
 - **Latency**: API p50/p95/p99
 - **Efficiency**: output/input token ratio
 
+### Pool & Drain Operations
+
+Pool scaling, drain lifecycle, and mail operations.
+
+- **Stats**: pool spawns/removes (1h), drain transitions (1h), mail ops (1h)
+- **Pool scaling**: spawns by agent, removes by reason
+- **Pool checks**: scale_check latency p50/p95, check errors by agent
+- **Drains**: transitions by type (begin/complete/cancel/timeout), drains by reason
+- **Mail**: ops by operation (send/read/reply/delete/archive), mail errors
+
 ### Beads Store Health
 
 bd storage operations, errors, and lock contention.
@@ -106,8 +116,13 @@ bd storage operations, errors, and lock contention.
 | `gc_controller_lifecycle_total` | counter | event |
 | `gc_bd_calls_total` | counter | status, subcommand |
 | `gc_sling_dispatches_total` | counter | target, target_type, method, status |
+| `gc_pool_spawns_total` | counter | agent, instance |
+| `gc_pool_removes_total` | counter | agent, reason |
+| `gc_mail_operations_total` | counter | operation, status |
+| `gc_drain_transitions_total` | counter | session, reason, transition |
 | `gc_bead_store_healthy` | gauge | city |
 | `gc_bd_duration_ms` | histogram | status, subcommand |
+| `gc_pool_check_duration_ms` | histogram | agent, status |
 
 ### bd metrics
 
